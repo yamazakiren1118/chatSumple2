@@ -1,0 +1,59 @@
+// ナビゲーション部分
+nav{
+  position: static;
+  height: calc(100vh - 40px);
+  min-height: calc(100vh - 40px);
+}
+
+// メッセージ部分
+main{
+  display: flex;
+}
+.messages{
+  width: calc(100% - 250px);
+}
+
+// 投稿フォーム
+.post-form{
+  width: calc(100% - 251px);
+  border-width: 1px 1px 1px 0;
+}
+
+// ヘッダー部分
+.search-form{
+  width: 600px;
+  margin: 0 10px 0 265px;
+  input{
+    width: 600px;
+    
+  }
+}
+
+// 投稿ボタン
+.popup-btn{
+  display: none;
+}
+
+// ポップアップ要素
+
+.popup-body{
+  height: 315px;
+  max-height: 65%;
+}
+.popup-container{
+  top: 100px;
+  width: 500px;
+  height: 500px;
+  max-width: 90vw;
+  max-height: calc(100vh - 128px);
+  margin: 0 0 0 125px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.popup-container2{
+  width: 500px;
+  height: 300px;
+  max-width: 90vw;
+  max-height: calc(100vh - 128px);
+  margin: 0 0 0 125px;
+}

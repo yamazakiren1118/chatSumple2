@@ -1,0 +1,22 @@
+html,body,p,a,button,form,input,textarea,ul,li,span{
+  margin:0;
+  padding:0;
+  line-height: 1.0;
+}
+a{
+  text-decoration: none;
+}
+
+
+
+@import 'sp';
+
+
+
+@media screen and (min-width: 480px) {
+  @import 'pc';
+}
+
+@media screen and (max-width: 780px) and (min-width: 481px) {
+  @import 'tb';
+}
