@@ -73,6 +73,7 @@ class MessageController extends Controller
         $messages = $messages->concat($d_messages);
         // dd($messages[0] instanceof Message);
         // return view('message/show',['id'=>$request->text, 'channels'=>$channels,'messages'=>$messages, 'd_messages'=>$d_messages, 'directs'=>$directs]);
+        
         return view('message/show',['id'=>$request->text, 'channels'=>$channels,'messages'=>$messages, 'directs'=>$directs]);
 
     }

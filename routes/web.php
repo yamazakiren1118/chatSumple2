@@ -22,7 +22,7 @@ Route::group(['prefix'=>'channel'], function(){
     Route::get('delete', 'ChannelController@delete')->middleware('auth');
     Route::get('jump', 'ChannelController@jump');
 
-    
+    Route::get('scroll_u', 'ChannelController@scroll_u');
     Route::get('{id}', 'ChannelController@show')->middleware('auth');
     Route::post('scroll_u', 'ChannelController@scroll_u');
     Route::post('scroll_d', 'ChannelController@scroll_d');

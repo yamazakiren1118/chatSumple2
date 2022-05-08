@@ -121,8 +121,7 @@
 <script>
   $(document).ready(function(){
 
-    // スクロールを下にする
-    $("#messageContainer")[0].scrollIntoView(false);
+
     // 無限スクロール
     $("#scroll").scroll(function(){
       
@@ -171,15 +170,72 @@
               });
             
           
-          page = page == 0 ? 2 : page + 1;
-          $("#scroll").data('scroll',page);
+          // page = page == 0 ? 2 : page + 1;
+          // $("#scroll").data('scroll',page);
           
           if(data.length > 0){
             $("#scroll").scrollTop(point.offsetTop - 75);
           }
         });
+      }else if($(this).scrollTop() >= ($("#messageContainer").height() - $(this).height() - 1)){
+        
+        page = $(this).data('scroll');
+        id = {{$id}};
+        
+        point = $("#messageContainer")[0].lastElementChild;
+        back = Math.abs($("#messageContainer").offset().top) + 75;
+        $.ajax("{{action('ChannelController@scroll_d')}}",
+          
+          {
+            type: 'post',
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: {page: page, id:id, point_id: point.dataset.id},
+          }
+        ).done(function(data){
+          console.log(data);
+              $.each(data,function(index,element){
+                id = element['id'];
+                
+                $edit = `{{action('MessageController@edit')}}`;
+                $delete = `{{action('MessageController@delete')}}`;
+                $update = `{{action('MessageController@update')}}`;
+                
+                if(!(point.dataset.id >= element['id'])){
+                  $p = 
+                  `<div class="message message-${element['id']}" id="m-${element['id']}" data-id="${element['id']}">
+                  <form action="${$update}?=${element['id']}" method="post">
+                    <div class="message-header">
+                      <p>${element['data']} ${element['name']}</p>
+                      <button><a class="message-edit" href="${$edit}?=${element['id']}" data-id="${element['id']}">編集</a></button>
+                      <button class="message-delete"><a href="${$delete}?=${element['id']}">削除</a></button>
+                    </div>
+                    <div class="message-main">
+                      <p>${element['message']}</p>
+                    </div>
+                    <input type="hidden" name="id" value="${element['id']}">
+                    {{csrf_field()}}
+                  </form>
+                  </div>`;
+                  $("#messageContainer").append($p);
+                }
+                
+              });
+            
+          
+          // page = page == 0 ? 2 : page + 1;
+          // $("#scroll").data('scroll',page);
+          
+          if(data.length > 0){
+            $("#scroll").scrollTop(back);
+          }
+        });
       }
+      
     });
+
+
+    // スクロールを下にする
+    $("#messageContainer")[0].scrollIntoView(false);
   });
 </script>
 

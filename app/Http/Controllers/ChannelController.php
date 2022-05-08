@@ -66,6 +66,7 @@ class ChannelController extends Controller
         // return response()->json($channel);
 
         $users = User::where('name', 'like', "%$request->text%")->where('id', '!=', Auth::user()->id)->get();
+        
         return response()->json($users);
     }
 
@@ -73,8 +74,13 @@ class ChannelController extends Controller
     {
         $channel = Channel::find($request->id);
         $point = Message::find($request->point_id);
-        $page = $request->page == 0 ? 2 : $request->page + 1;
-        $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
+        // $page = $request->page == 0 ? 2 : $request->page + 1;
+        // $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
+        $messages = $channel->messages()->orderBy('id', 'desc')->get();
+        // dd($point->id);
+        $messages = $messages->filter(function($v,$k) use ($point){
+            return $v->id < $point->id;
+        })->take(10);
         $data = array();
         foreach($messages as $m){
             $name = $m->user->name;
@@ -89,7 +95,25 @@ class ChannelController extends Controller
 
     public function scroll_d(Request $request)
     {
-
+        $channel = Channel::find($request->id);
+        $point = Message::find($request->point_id);
+        // $page = $request->page == 0 ? 2 : $request->page + 1;
+        // $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
+        $messages = $channel->messages()->get();
+        // dd($point->id);
+        $messages = $messages->filter(function($v,$k) use ($point){
+            return $v->id > $point->id;
+        })->take(10);
+        $data = array();
+        foreach($messages as $m){
+            $name = $m->user->name;
+            $d = $m->created_at->format('Y/m/d');
+            $m = $m->toArray();
+            $m = $m + array('name'=>$name,'data'=>$d);
+            array_push($data,$m);
+        }
+        // dd($data);
+        return response()->json($data);
     }
 
     public function jump(Request $request)
