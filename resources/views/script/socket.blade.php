@@ -1,7 +1,7 @@
 <!-- env関数で環境変数があればそれをなければlocalhostのアドレスを出力する -->
 <script src="{{env('SOCKET_URL', 'http://localhost:3000')}}/socket.io/socket.io.js"></script>
 <script>
-  var socket = io("http://localhost:3000");
+  var socket = io("{{env('SOCKET_URL', 'http://localhost:3000')}}");
   socket.on("connect", function(data){
     // 接続時ユーザー情報を送信する
     var user_id = {{Auth::user()->id}};
