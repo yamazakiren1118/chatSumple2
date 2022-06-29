@@ -13,13 +13,13 @@ class DatabaseSeeder extends Seeder
     {
 
 
-        // DB::table('channels')->insert([
-        //     ['id' => '1',
-        //     'name' => 'メイン',
-        //     'created_at' => new DateTime(),
-        //     'updated_at' => new DateTime(),
-        //     ],
-        // ]);
+        DB::table('channels')->insert([
+            ['id' => '1',
+            'name' => 'メイン',
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime(),
+            ],
+        ]);
 
         // DB::table('channel_user')->insert([
         //     ['id' => '1',
@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
 
 
         // factory(App\Message::class,20)->create();
-        factory(App\User::class,20)->create();
+        // factory(App\User::class,20)->create();
         // factory(App\Channel::class,50)->create();
         // factory(App\DirectMessage::class,50)->create();
 
