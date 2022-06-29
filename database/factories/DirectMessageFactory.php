@@ -4,12 +4,13 @@
 
 use App\Model;
 use Faker\Generator as Faker;
-use App\User;
 
-$factory->define(App\Message::class, function (Faker $faker) {
+$factory->define(App\DirectMessage::class, function (Faker $faker) {
     return [
+        //
         'message' => $faker->paragraph,
-        'user_id' => 2,
-        'room_id' => 2,
+        'user_id' => 1,
+        'room_id' => 3,
+
     ];
 });

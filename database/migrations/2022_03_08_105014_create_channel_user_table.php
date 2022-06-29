@@ -16,8 +16,12 @@ class CreateChannelUserTable extends Migration
         Schema::create('channel_user', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('channel_id')->unsigned();
-            $table->string('user_name')->nullable();
+            $table->bigInteger('room_id')->unsigned();
+            // $table->string('user_name')->nullable();
+
+            // 下記２つのカラムは未読通知のためのもの
+            // 最新のメッセージIDとメッセージを投稿したユーザーを保存する
+            $table->bigInteger('message_user')->nullable();
             $table->bigInteger('message_id')->nullable();
             $table->timestamps();
         });

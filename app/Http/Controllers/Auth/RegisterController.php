@@ -30,7 +30,10 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/home';
+
+    // 登録後のリダイレクト先を変更している
+    protected $redirectTo = '/channel/1';
 
     /**
      * Create a new controller instance.
@@ -71,12 +74,15 @@ class RegisterController extends Controller
         //     'password' => Hash::make($data['password']),
         // ]);
         $channel = Channel::find(1);
+        
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
         $channel->users()->attach($user->id);
+        return $user;
+        // dd($user->id);
         // return redirect()->action('ChannelController@show',['id'=>1]);
     }
 }

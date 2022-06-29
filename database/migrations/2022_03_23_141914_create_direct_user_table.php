@@ -16,7 +16,13 @@ class CreateDirectUserTable extends Migration
         Schema::create('direct_user', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->integer('direct_id');
+            $table->integer('room_id');
+            // $table->string('user_name')->nullable();
+
+            // 下記２つのカラムは未読通知のためのもの
+            // 最新のメッセージIDとメッセージを投稿したユーザーを保存する
+            $table->bigInteger('message_user')->nullable();
+            $table->bigInteger('message_id')->nullable();
             $table->timestamps();
         });
     }

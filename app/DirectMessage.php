@@ -11,7 +11,7 @@ class DirectMessage extends Model
 
     public function direct()
     {
-        return $this->belongsTo(Direct::class);
+        return $this->belongsTo(Direct::class, 'room_id');
     }
 
     public function user()
