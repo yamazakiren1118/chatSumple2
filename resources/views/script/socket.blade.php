@@ -1,4 +1,5 @@
-<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<!-- env関数で環境変数があればそれをなければlocalhostのアドレスを出力する -->
+<script src="{{env('SOCKET_URL', 'http://localhost:3000')}}/socket.io/socket.io.js"></script>
 <script>
   var socket = io("http://localhost:3000");
   socket.on("connect", function(data){
