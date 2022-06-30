@@ -181,13 +181,13 @@ $(document).ready(function(){
         context: this,
       }
     ).done(function(data){
+      $(".popup-container .popup-body").html('');
       if(data.length > 0){//検索結果が0ならば何も表示しない
+        
         $.each(data, function(index, val){
 
           $("#popup3-body").append(`<div class='popup-content'><p>${val['name']}</p><button class='add-btn' data-id='${val['id']}'>追加</button></div>`);
         });
-      }else{
-        $(".popup-container .popup-body").html('');
       }
     });
   });

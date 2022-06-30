@@ -255,13 +255,13 @@ $(document).ready(function () {
       },
       context: this
     }).done(function (data) {
+      $(".popup-container .popup-body").html('');
+
       if (data.length > 0) {
         //検索結果が0ならば何も表示しない
         $.each(data, function (index, val) {
           $("#popup3-body").append("<div class='popup-content'><p>".concat(val['name'], "</p><button class='add-btn' data-id='").concat(val['id'], "'>\u8FFD\u52A0</button></div>"));
         });
-      } else {
-        $(".popup-container .popup-body").html('');
       }
     });
   }); // チャンネルを検索して結果を表示する

@@ -66,13 +66,14 @@ class DirectController extends Controller
         // 自分とつながっているDMをすべて取得
         $directs = Auth::user()->directs;
         $direct_users = [];
+        $myId = [Auth::user()->id];
         foreach($directs as $d){
             $direct_users = array_merge($direct_users,$d->users->pluck('id')->toArray());
         }
         
         
         // 自分とつながっているDMを含まないユーザーを検索
-        $users = User::where('name', 'like', "%$request->text%")->whereNotIn('id',$direct_users)->get();
+        $users = User::where('name', 'like', "%$request->text%")->whereNotIn('id', $myId)->whereNotIn('id',$direct_users)->get();
         
         // dd($users);
         // echo $users;
