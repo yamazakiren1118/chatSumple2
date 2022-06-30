@@ -251,6 +251,7 @@
         data: {name: name},
       }).done(function(data){
         $(".channels > ul").append(`<li><a href="${data['url']}">${data['name']}チャンネル</a></li>`);
+        $("#popup2 input[type='text']").val('');
       });
       return false;
     });
