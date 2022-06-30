@@ -38,8 +38,10 @@
           <form action="{{action('DirectMessageController@update',['id'=>$m->id])}}" method="post">
             <div class="message-header">
               <p>{{$m->created_at->format('Y/m/d')}} {{$m->user->name}}</p>
-              <button><a class="message-edit" href="{{action('DirectMessageController@edit',['id'=>$m->id])}}" data-id="{{$m->id}}">編集</a></button>
-              <button class="message-delete"><a href="{{action('DirectMessageController@delete',['id'=>$m->id])}}">削除</a></button>
+              @if($m->user->id == Auth::user()->id)
+                <button><a class="message-edit" href="{{action('DirectMessageController@edit',['id'=>$m->id])}}" data-id="{{$m->id}}">編集</a></button>
+                <button class="message-delete"><a href="{{action('DirectMessageController@delete',['id'=>$m->id])}}">削除</a></button>
+              @endif
             </div>
             <div class="message-main">
               <p>{!! nl2br($m->message) !!}</p>
@@ -57,7 +59,7 @@
 <!-- ポップアップ要素 -->
 <div class="popup-background" id="popupBackground"></div>
 <div class="popup-background2" id="popupBackground2"></div>
-@include('form1',['id'=>'popup','action'=>action('ChannelController@serch'),'create'=>'','url_id'=>$id])
+@include('form1',['id'=>'popup','action'=>action('ChannelController@serch'),'create'=>action('ChannelController@add'),'url_id'=>$id])
 
 <!-- ポップアップ要素2 -->
 @include('form2',['id'=>'popup2','action'=>action('ChannelController@create')])

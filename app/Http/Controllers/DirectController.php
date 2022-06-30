@@ -87,7 +87,7 @@ class DirectController extends Controller
         $direct = Direct::find($id);
 
         // 通信相手の名前を取得している
-        $room_name = $direct->users->where('user_id', '!=', Auth::user()->id)->first()->name;
+        $room_name = $direct->users->where('id', '!=', Auth::user()->id)->first()->name;
         
         
         $messages = $direct->direct_messages()->get()->take(-10);

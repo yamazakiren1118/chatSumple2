@@ -37,9 +37,11 @@
           <form action="{{action('MessageController@update',['id'=>$m->id])}}" method="post">
             <div class="message-header">
               <p>{{$m->created_at->format('Y/m/d')}} {{$m->user->name}}</p>
-              <button><a class="message-edit" href="{{action('MessageController@edit',['id'=>$m->id])}}" data-id="{{$m->id}}">編集</a></button>
-              <button class="message-delete"><a href="{{action('MessageController@delete',['id'=>$m->id])}}">削除</a></button>
-            </div>
+              @if($m->user->id == Auth::user()->id)
+                <button><a class="message-edit" href="{{action('MessageController@edit',['id'=>$m->id])}}" data-id="{{$m->id}}">編集</a></button>
+                <button class="message-delete"><a href="{{action('MessageController@delete',['id'=>$m->id])}}">削除</a></button>
+              @endif
+              </div>
             <div class="message-main">
               <p>{!! nl2br($m->message) !!}</p>
             </div>
