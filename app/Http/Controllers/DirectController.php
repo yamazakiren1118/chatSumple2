@@ -90,7 +90,7 @@ class DirectController extends Controller
         $room_name = $direct->users->where('id', '!=', Auth::user()->id)->first()->name;
         
         
-        $messages = $direct->direct_messages()->get()->take(-10);
+        $messages = $direct->direct_messages()->orderBy('id', 'desc')->get()->take(-10);
 
 
         // 未読通知のため中間テーブルを取得している
