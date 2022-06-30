@@ -137,7 +137,7 @@
   // 通知を表示するための処理
   socket.on('push', function(data){
     if({{Auth::user()->id}} != data.user_id && {{$id}} != data.room_id){
-      $(`.${socket.room_type}-${data.room_id} a`).append("<strong>!</strong>");
+      $(`.${data.room_type}-${data.room_id} a`).append("<strong>!</strong>");
     }
   });
 </script>
