@@ -38,7 +38,9 @@
         @endif
       </div>
       <div class="message-container" id="messageContainer">
-      @foreach($messages->reverse() as $m)
+      
+      @foreach($messages as $m)
+        
         <div class="message message-{{$m->id}}" id="m-{{$m->id}}" data-id="{{$m->id}}">
           <form action="{{action('MessageController@update',['id'=>$m->id])}}" method="post">
             <div class="message-header">
@@ -77,7 +79,12 @@
 
 <!-- jsの読み込み -->
 @include('script/socket', ['socket_serch' => action('MessageController@socket_serch')])
-@include('script/js')
+@include('script/js', ['scroll_u' => action('ChannelController@scroll_u'), 
+                      'scroll_d' => action('ChannelController@scroll_d'),
+                      'message_edit' => action('MessageController@edit'), 
+                      'message_delete' => action('MessageController@delete'),
+                      'message_update' => action('MessageController@update'),
+                      'scroll' => isset($scroll),])
 <script>
   $(document).ready(function(){
     $('body').on('click', "#popup5 .add-btn", function(){

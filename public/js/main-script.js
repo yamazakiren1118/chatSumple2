@@ -102,9 +102,13 @@ $(document).ready(function () {
 
   var postFormHeight = $("#post-form").height(); // 入力フォームのテキストエリア
 
-  var textarea = $("#post-form textarea"); // 入力フォームのテキストエリアの高さ
+  var textarea = $("#post-form textarea");
 
-  var textareaHeight = textarea[0].offsetHeight;
+  if (textarea.length) {
+    // 入力フォームのテキストエリアの高さ
+    var textareaHeight = textarea[0].offsetHeight;
+  }
+
   $("#popupBackground").on('click', function () {
     $("*").removeClass("on"); // 検索フォームをクリアする
 
@@ -117,6 +121,8 @@ $(document).ready(function () {
   p_back = $("#popupBackground");
   nav_btn = $("#menu-btn");
   $(document).on('click', function (e) {
+    console.log(Number($("#channel-add-list").attr('data-popup')) && !$(e.target).closest('#channel-add-list').length);
+
     if ($(e.target).closest("#menu-btn").length && !Number($("#nav").attr('data-popup'))) {
       //navを開く
       console.log('1');
@@ -137,12 +143,17 @@ $(document).ready(function () {
       return false;
     } else if ($(e.target).closest("#nav a").length && Number($("#channel-add-list").attr('data-popup'))) {
       //navのaがクリックされてボタンが表示されていた時
+      console.log('5');
       $("#channel-add-list").attr('data-popup', "0");
       return false;
     } else if ($(e.target).closest("#nav").length) {
       //navをクリックしたときボタンを消す
       console.log('4');
       $("#channel-add-list").attr('data-popup', "0"); // return false;
+    } else if (Number($("#channel-add-list").attr('data-popup')) && !$(e.target).closest('#channel-add-list').length) {
+      console.log('6');
+      $("#channel-add-list").attr('data-popup', "0");
+      return false;
     }
   });
   $("#channel-create-btn").on('click', function () {

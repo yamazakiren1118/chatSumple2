@@ -69,6 +69,7 @@
 @include('form3',['action'=>action('MessageController@create'),'name'=>'room_id'])
 
 <!-- jsの読み込み -->
+
 @if(!(isset($direct)))
   @include('script/js',['scroll'=>0])
 @else

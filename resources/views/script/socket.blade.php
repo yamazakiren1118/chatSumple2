@@ -2,6 +2,7 @@
 <script src="{{env('SOCKET_URL', 'http://localhost:3000')}}/socket.io/socket.io.js"></script>
 <script>
   var socket = io("{{env('SOCKET_URL', 'http://localhost:3000')}}");
+  console.log(socket);
   socket.on("connect", function(data){
     // 接続時ユーザー情報を送信する
     var user_id = {{Auth::user()->id}};
@@ -23,11 +24,17 @@
   socket.on('create', function(data){
     
     url = '{{$socket_serch}}';
-    
+
+    last_message_id = $("#messageContainer")[0].lastElementChild.dataset.id;
+
+    // 送られてきたメッセージのidの順序が正しいかチェックしている
+    if(last_message_id != data.last_message_id){
+      return false;
+    }
     $.ajax(url, {
       type: "post",
       headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-      data: {id: data.id}
+      data: {id: data.id, last_message_id: last_message_id}
     }).done(function(data){
       
 
@@ -84,7 +91,7 @@
       message.html(
         form.html(
           message_header.add(message_main).add(hidden)
-        ));
+      ));
 
       
 

@@ -90,8 +90,8 @@ class DirectController extends Controller
         $room_name = $direct->users->where('id', '!=', Auth::user()->id)->first()->name;
         
         
-        $messages = $direct->direct_messages()->orderBy('id', 'desc')->get()->take(-10);
-
+        $messages = $direct->direct_messages()->orderBy('id', 'asc')->get()->take(-10);
+        
 
         // 未読通知のため中間テーブルを取得している
         $direct_user = DirectUser::where('user_id', '=', Auth::user()->id)->where('room_id', '=', $id)->first();
@@ -160,7 +160,7 @@ class DirectController extends Controller
         $point = DirectMessage::find($request->point_id);
         // $page = $request->page == 0 ? 2 : $request->page + 1;
         // $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
-        $messages = $channel->direct_messages()->get();
+        $messages = $channel->direct_messages()->orderBy('id', 'asc')->get();
         // dd($point->id);
         $messages = $messages->filter(function($v,$k) use ($point){
             return $v->id > $point->id;

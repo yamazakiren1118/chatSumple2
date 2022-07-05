@@ -32,8 +32,9 @@
         <a href="{{action('DirectController@delete',['id'=> $id])}}">チャンネルを削除</a>
       </div>
       <div class="message-container" id="messageContainer">
-
+      
       @foreach($messages as $m)
+      
         <div class="message message-{{$m->id}}" id="m-{{$m->id}}" data-id="{{$m->id}}">
           <form action="{{action('DirectMessageController@update',['id'=>$m->id])}}" method="post">
             <div class="message-header">
@@ -74,6 +75,11 @@
 
 <!-- jsの読み込み -->
 @include('script/socket', ['socket_serch' => action('DirectMessageController@socket_serch')])
-@include('script/js',['direct'=>"direct_scroll"])
+@include('script/js', ['scroll_u' => action('DirectController@scroll_u'),
+                       'scroll_d' => action('DirectController@scroll_d'),
+                       'message_edit' => action('DirectMessageController@edit'), 
+                       'message_delete' => action('DirectMessageController@delete'),
+                       'message_update' => action('DirectMessageController@update'),
+                       'scroll' => isset($scroll),])
 
 @endsection

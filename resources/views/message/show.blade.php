@@ -81,6 +81,6 @@
 
 
 <!-- jsの読み込み -->
-@include('script/js')
+
 
 @endsection

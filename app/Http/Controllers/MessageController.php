@@ -19,13 +19,22 @@ class MessageController extends Controller
         $message->fill($request->all());
         $message->user_id = Auth::user()->id;
         $message->save();
+
+
+        // 今作成したメッセージよりもひとつ前のidを取得する
+        $last_message_id = Message::where('room_id', '=', $message->room_id)
+                            ->where('id', '<', $message->id)
+                            ->orderBy('id', 'desc')->first()->id;
+
+
         
         
         // ユーザーidを取得してusersというカラムを追加
         $users = $message->channel->users->pluck("id")->toArray();
         $message->users = $users;
         
-
+        $message->last_message_id = $last_message_id;
+        
         return response()->json($message);
         
         // 未読通知のための処理
@@ -96,6 +105,10 @@ class MessageController extends Controller
     // jsで処理するために必要な投稿者名やリンク情報を返す
     public function socket_serch(Request $request)
     {
+        // $last_message_id = Message::orderBy('id', 'desc')->first()->id;
+        // if($last_message_id == $request->last_message_id){
+        //     return false;
+        // }
         $id = $request->id;
         $message = Message::find($id);
         $user = $message->user;

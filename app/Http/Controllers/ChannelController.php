@@ -70,7 +70,8 @@ class ChannelController extends Controller
     {
         $channel = Channel::find($id);
         
-
+        
+        
 
         
         // 中間テーブルを取得
@@ -79,7 +80,11 @@ class ChannelController extends Controller
         
         if($channel && $channel_user){
             $page = $request->page;
-            $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
+            // $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
+            $messages = $channel->messages()->orderBy('id', 'asc')->get()->take(-10);
+            
+            // dd($messages);
+
             
             // dd($channel_user);
             // 最新のメッセージのidと投稿者を保存
@@ -163,7 +168,8 @@ class ChannelController extends Controller
         $point = Message::find($request->point_id);
         // $page = $request->page == 0 ? 2 : $request->page + 1;
         // $messages = $channel->messages()->orderBy('id', 'desc')->paginate(10, ['*'], 'page',$page);
-        $messages = $channel->messages()->get();
+        $messages = $channel->messages()->orderBy('id', 'asc')->get();
+
         // dd($point->id);
         $messages = $messages->filter(function($v,$k) use ($point){
             return $v->id > $point->id;
@@ -187,51 +193,62 @@ class ChannelController extends Controller
     public function jump(Request $request)
     {
         // dd($request->dm);
+        // DMであった場合とそうでない場合で処理を分けている
         if($request->dm){
             $message = DirectMessage::find($request->id);
-            $id = $message->id;
+            $message_id = $message->id;
+            $id = $message->direct->id;
             $channel = $message->direct;
-            $messages = $channel->direct_messages()->orderBy('id', 'desc')->get();
-            $message = $messages->filter(function($i) use ($id){
-                return $i->id >= $id;
-            })->take(-10);
+            $messages = $channel->direct_messages()->orderBy('id', 'asc')->get();
+            $message = $messages->filter(function($i) use ($message_id){
+                return $i->id >= $message_id;
+            })->take(10);
             $channels = Auth::user()->channels;
             $directs = Auth::user()->directs;
             $page = $request->page;
-            return view('jump/show',['channel'=>$channel, 'channels'=>$channels,'id'=>$channel->id, 'messages'=>$message, 'directs'=>$directs, 'page' => $page, 'direct'=>'direct_scroll']);
+            $room_name = $channel->users->where('id', '!=', Auth::user()->id)->first()->name;
+            $room_type = "d";
+
+            return view('direct/show',['room_name'=>$room_name, 
+                        'channels'=>$channels,
+                        'id'=>$id, 
+                        'messages'=>$message, 
+                        'directs'=>$directs, 
+                        'room_type'=>$room_type,
+                        'scroll' => 1]);
         }else{
             
             $message = Message::find($request->id);
-            $id = $message->id;
+            $message_id = $message->id;
+            $id = $message->channel->id;
             $channel = $message->channel;
             // $test = collect(['a','b','c']);
 
             // クリックしたメッセージよりも大きい=最新のメッセージを取得して後ろから10件取得
             // これにより一番後ろがクリックしたメッセージのものが10件取得できる
-            $messages = $channel->messages()->orderBy('id', 'desc')->get();
-            $message = $messages->filter(function($i) use ($id){
-                return $i->id >= $id;
-            })->take(-10);
-            // $message = collect();
+            $messages = $channel->messages()->orderBy('id', 'asc')->get();
+            $message = $messages->filter(function($i) use ($message_id){
+                return $i->id >= $message_id;
+            })->take(10);
+
+            // dd($message_id,$message);
             
-            // foreach($messages as $m){
-                
-            //     if($m->id == $id){
-            //         $m = collect([$m]);
-            //         $message = $message->concat($m);
-            //         break;
-            //     }else{
-            //         $m = collect([$m]);
-            //         $message = $message->concat($m);
-            //     }
-            //     // dd($m);
-            // }
+
 
             
             $channels = Auth::user()->channels;
             $directs = Auth::user()->directs;
             $page = $request->page;
-            return view('jump/show',['channel'=>$channel, 'channels'=>$channels,'id'=>$channel->id, 'messages'=>$message, 'directs'=>$directs, 'page' => $page]);
+
+            $room_type = "c";
+            return view('channel/show',['channel'=>$channel,
+                         'channels'=>$channels,
+                         'id'=>$id,
+                         'messages'=>$message, 
+                         'directs'=>$directs, 
+                         'page' => $page, 
+                         'room_type' => $room_type,
+                         'scroll' => 1]);
         }
         
     }

@@ -9,8 +9,11 @@ $(document).ready(function(){
   var postFormHeight = $("#post-form").height();
   // 入力フォームのテキストエリア
   var textarea = $("#post-form textarea");
-  // 入力フォームのテキストエリアの高さ
-  var textareaHeight = textarea[0].offsetHeight;
+
+  if(textarea.length){
+    // 入力フォームのテキストエリアの高さ
+    var textareaHeight = textarea[0].offsetHeight;
+  }
   
 
   $("#popupBackground").on('click', function(){
@@ -29,6 +32,10 @@ $(document).ready(function(){
   p_back = $("#popupBackground");
   nav_btn = $("#menu-btn");
   $(document).on('click', function(e){
+    
+    
+    
+
     if($(e.target).closest("#menu-btn").length && !(Number($("#nav").attr('data-popup')))){//navを開く
       console.log('1');
       $("#nav").attr('data-popup',"1");
@@ -46,6 +53,7 @@ $(document).ready(function(){
       $("#channel-add-list").attr('data-popup',"1");
       return false;
     }else if($(e.target).closest("#nav a").length && Number($("#channel-add-list").attr('data-popup'))){//navのaがクリックされてボタンが表示されていた時
+      console.log('5');
       $("#channel-add-list").attr('data-popup',"0");
       
       return false;
@@ -53,6 +61,10 @@ $(document).ready(function(){
       console.log('4');
       $("#channel-add-list").attr('data-popup',"0");
       // return false;
+    }else if(Number($("#channel-add-list").attr('data-popup')) && !($(e.target).closest('#channel-add-list').length)){
+      console.log('6');
+      $("#channel-add-list").attr('data-popup',"0");
+      return false;
     }
 
   });
