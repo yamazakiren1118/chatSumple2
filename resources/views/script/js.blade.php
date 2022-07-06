@@ -57,7 +57,7 @@
 
 
 
-  $(document).ready(function(){
+  window.addEventListener('DOMContentLoaded', function(){
     // 無限スクロール
     $("#scroll").scroll(function(){
       
@@ -180,7 +180,7 @@
       }).done(function(data){
         console.log('create message ok');
         socket.emit('create',{room_id:room_id,id:data['id'],last_message_id:data['last_message_id']});
-        socket.emit('push', {room_id: room_id, users: data['users'], user_id: data['user_id']});
+        socket.emit('push', {id: data['id'], room_id: room_id, users: data['users'], user_id: data['user_id']});
       });
       $("#post-form textarea").val('');
       return false;
@@ -188,6 +188,9 @@
 
     // メッセージ削除時の処理
     $("body").on("click", ".message .message-delete", function(){
+      if(!(window.confirm('削除しますか'))){
+        return false;
+      }
       url = $(this).children('a').attr("href");
       id = $(this).parents('.message').attr('data-id');
       $.ajax(url, {
@@ -220,6 +223,25 @@
 
 
 
+    // 下記3つは削除などの際の確認メッセージ
+    $("#room-delete,#user-delete").on('click', function(){
+      if(!(window.confirm('削除しますか'))){
+        return false;
+      }
+    });
+
+    $("#detach").on('click', function(){
+      if(!(window.confirm('脱退しますか'))){
+        return false;
+      }
+    });
+
+    $("#logout-link").on('click', function(){
+      if(!(window.confirm('ログアウトしますか'))){
+        return false;
+      }
+      document.getElementById('logout-form').submit();
+    });
 
   });
 </script>

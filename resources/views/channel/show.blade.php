@@ -33,8 +33,8 @@
         <p>{{$channel->name}}チャンネル</p>
         @if($id != 1)
           <a href="" id="user-channel-add-btn">ユーザーを追加</a>
-          <a href="{{action('ChannelController@detach',['id'=> $id])}}">チャンネルから脱退</a>
-          <a href="{{action('ChannelController@delete',['id'=> $id])}}">チャンネルを削除</a>
+          <a href="{{action('ChannelController@detach',['id'=> $id])}}" id="detach">チャンネルから脱退</a>
+          <a href="{{action('ChannelController@delete',['id'=> $id])}}" id="room-delete">チャンネルを削除</a>
         @endif
       </div>
       <div class="message-container" id="messageContainer">
@@ -85,13 +85,6 @@
                       'message_delete' => action('MessageController@delete'),
                       'message_update' => action('MessageController@update'),
                       'scroll' => isset($scroll),])
-<script>
-  $(document).ready(function(){
-    $('body').on('click', "#popup5 .add-btn", function(){
-      var parent = $(this).parents('.popup-content');
-      parent.remove();
-    });
-  });
-</script>
+
 
 @endsection

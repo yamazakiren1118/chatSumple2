@@ -22,6 +22,14 @@ class DirectMessageController extends Controller
         $users = $message->direct->users->pluck("id")->toArray();
         $message->users = $users;
 
+        // 今作成したメッセージよりもひとつ前のidを取得する
+        $last_message_id = DirectMessage::where('room_id', '=', $message->room_id)
+                            ->where('id', '<', $message->id)
+                            ->orderBy('id', 'desc')->first()->id;
+                            
+        $message->last_message_id = $last_message_id;
+        
+
         return response()->json($message);
     }
 

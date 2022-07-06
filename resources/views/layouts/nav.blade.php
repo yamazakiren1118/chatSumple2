@@ -59,13 +59,13 @@
         
       </div>
   
-      <a class="sign-out" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">サインアウト</a>
+      <a class="sign-out" id="logout-link" href="{{route('logout')}}" onclick="event.preventDefault();">サインアウト</a>
       <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
           {{csrf_field()}}
       </form>
   
 
-      <a href="{{action('Auth\DeleteController@delete',['id'=>Auth::User()->id])}}" class="user-delete">ユーザーを削除</a>
+      <a href="{{action('Auth\DeleteController@delete',['id'=>Auth::User()->id])}}" class="user-delete" id="user-delete">ユーザーを削除</a>
     </div>
     <div class="nav-background" id="navBackground"></div>
   </nav>

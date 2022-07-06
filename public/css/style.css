@@ -479,6 +479,18 @@ main {
   border-width: 0 0 0 1px;
 }
 
+.push-message {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 300;
+  padding: 20px 50px;
+  max-width: 100%;
+  background-color: white;
+  border: 1px solid black;
+}
+
 @media screen and (min-width: 480px) {
   header {
     z-index: 20;

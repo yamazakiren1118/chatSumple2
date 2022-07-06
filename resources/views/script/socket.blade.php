@@ -146,5 +146,23 @@
     if({{Auth::user()->id}} != data.user_id && {{$id}} != data.room_id){
       $(`.${data.room_type}-${data.room_id} a`).append("<strong>!</strong>");
     }
+
+    if({{Auth::user()->id}} != data.user_id){
+      push = $("<div>", {
+      id: `push-${data['id']}`,
+      class: 'push-message',
+      style: 'display: none',
+      }).html($("<p>",{
+        text: 'メッセージが届きました',
+      }))
+      $("body").append(push);
+      $(`#push-${data['id']}`).fadeIn();
+      window.setTimeout(function(){
+        $(`#push-${data['id']}`).fadeOut();
+      },3000);
+    }
+
+
+
   });
 </script>

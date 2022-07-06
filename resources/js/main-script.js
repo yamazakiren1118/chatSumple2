@@ -334,4 +334,11 @@ $(document).ready(function(){
       messageContainer.css({'margin-bottom': 0});
     }
   });
+
+  // チャンネルにユーザーを追加する際の処理
+  // クリックされた要素を消す
+  $('body').on('click', "#popup5 .add-btn", function(){
+    var parent = $(this).parents('.popup-content');
+    parent.remove();
+  });
 });

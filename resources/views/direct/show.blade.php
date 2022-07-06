@@ -29,7 +29,7 @@
       <div class="channel-name">
         <p>{{$room_name}}</p>
         
-        <a href="{{action('DirectController@delete',['id'=> $id])}}">チャンネルを削除</a>
+        <a href="{{action('DirectController@delete',['id'=> $id])}}" id="room-delete">チャンネルを削除</a>
       </div>
       <div class="message-container" id="messageContainer">
       
