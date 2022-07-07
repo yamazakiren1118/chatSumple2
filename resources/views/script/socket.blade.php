@@ -25,7 +25,9 @@
     
     url = '{{$socket_serch}}';
 
-    last_message_id = $("#messageContainer")[0].lastElementChild.dataset.id;
+    last_message = $("#messageContainer")[0].lastElementChild;
+
+    last_message_id = last_message ? last_message.dataset.id : 0;
 
     // 送られてきたメッセージのidの順序が正しいかチェックしている
     if(last_message_id != data.last_message_id){

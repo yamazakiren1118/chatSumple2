@@ -75,6 +75,10 @@
 
           url = "{{$scroll_u}}";
           
+          // メッセージがなかった場合スクロールイベントを中断する
+          if(!(point)){
+            return false;
+          }
           $.ajax(url,
             {
               type: 'post',
@@ -109,7 +113,12 @@
           id = {{$id}};
           
           point = $("#messageContainer")[0].lastElementChild;
-          
+          // メッセージがなかった場合スクロールイベントを中断する
+          if(!(point)){
+            return false;
+          }
+
+
           // scrollTopは指定した要素を基準に考える
           // offset().topは画面の上から考えるためそのズレを下でなくしている
           back = Math.abs($("#messageContainer").offset().top) + 100;

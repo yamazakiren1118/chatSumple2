@@ -23,10 +23,11 @@ class DirectMessageController extends Controller
         $message->users = $users;
 
         // 今作成したメッセージよりもひとつ前のidを取得する
-        $last_message_id = DirectMessage::where('room_id', '=', $message->room_id)
+        $last_message = DirectMessage::where('room_id', '=', $message->room_id)
                             ->where('id', '<', $message->id)
-                            ->orderBy('id', 'desc')->first()->id;
-                            
+                            ->orderBy('id', 'desc')->first();
+        
+        $last_message_id = $last_message ? $last_message->id : 0;
         $message->last_message_id = $last_message_id;
         
 
